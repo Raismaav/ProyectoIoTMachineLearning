@@ -23,15 +23,13 @@ def consulta():
     query = f"SELECT humidityAir, temperature, date FROM information WHERE date = '{date_py}' ORDER BY datahour DESC LIMIT 1"
     cursor.execute(query)
     result = cursor.fetchall()
-    cursor.execute(query)
-    result = cursor.fetchall()
 
     # Cerrar la conexión y el cursor
     # cursor.close()
     # conection.close()
 
     # Hacer algo con los datos obtenidos
-    if result is not None:
+    if result:
         print(result)
         humidityAir, temperature, date = result[0]
         date = int(date[5:7])
@@ -55,3 +53,10 @@ def consulta():
 
         # Imprimir la respuesta del servidor
         print(response.text)
+
+        # Imprimir la prediccion sin redondear
+        prediction = NeuralNetwork.eval_data(data, rounded=False)
+        print(prediction)
+
+    else:
+        print("No se devolvieron datos de la consulta.")
